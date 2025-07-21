@@ -1,4 +1,4 @@
-const {add, multiply, substract, division} = require("./math")
+import {add, multiply, substract, division} from "./math.js"
 
 console.log(add(5, 10));
 console.log(multiply(5, 10));

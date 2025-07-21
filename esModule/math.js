@@ -11,4 +11,4 @@ const division = (a, b) =>  {
     return a / b;
 }
 
-module.exports = {add, multiply, substract, division}
+export{add, substract, multiply, division}
