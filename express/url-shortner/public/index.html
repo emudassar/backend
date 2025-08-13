@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <form action="/shorten" method="POST" class="form">
+        <h1>Url Shortner</h1>
+        <label for="url">Url:</label>
+        <input type="url" id="url" name="url" required />
+        <label for="shortcode">Shortcode:</label>
+        <input type="text" id="shortcode" name="shortcode" />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
