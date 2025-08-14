@@ -1,8 +1,7 @@
 import express from "express";
-import { readFile } from "fs";
+import { readFile, writeFile } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import fs from "fs";
 
 const app = express();
 const PORT = 3000;
@@ -16,15 +15,19 @@ const __dirname = path.dirname(__filename);
 
 const dataFile = path.join(__dirname, "data", "links.json");
 
-fs.readFile(dataFile, "utf8", (err, data) => {
-  if (err) throw err;
-  const savedData = JSON.parse(data);
-  console.log(savedData);
-});
-
 app.post("/shorten", (req, res) => {
-  console.log(req.body);
-  res.send("Data received");
+  readFile(dataFile, "utf8", (err, data) => {
+    if (err) throw err;
+    const savedData = data ? JSON.parse(data) : {};
+    const { url, shortcode } = req.body;
+    savedData[shortcode] = url;
+
+    writeFile(dataFile, JSON.stringify(savedData, null, 2), (err) => {
+      if (err) throw err;
+      console.log("Link saved: ", shortcode, "->", url);
+      res.send("Short link saved successfully");
+    });
+  });
 });
 
 app.listen(PORT, () => {
