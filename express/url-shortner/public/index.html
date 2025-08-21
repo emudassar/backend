@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="container">
-      <form action="/shorten" method="POST" class="form">
+      <form action="/shorten" method="POST" id="shorten-form">
         <h1>Url Shortner</h1>
         <label for="url">Url:</label>
         <input type="url" id="url" name="url" required />
@@ -18,5 +18,30 @@
         <ul class="shortened-links"></ul>
       </form>
     </div>
+
+    <script>
+      const form = document.getElementById("shorten-form");
+      const list = document.querySelector(".shortened-links");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const url = document.getElementById("url").value;
+        const shortcode = document.getElementById("shortcode").value;
+
+        const res = await fetch("/shorten", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url, shortcode }),
+        });
+
+        const data = await res.json();
+
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${data.shortUrl}" target="_blank">${data.shortUrl}</a>`;
+        list.appendChild(li);
+
+        form.reset();
+      });
+    </script>
   </body>
 </html>

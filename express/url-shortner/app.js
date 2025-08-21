@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
@@ -22,10 +23,12 @@ app.post("/shorten", (req, res) => {
     const { url, shortcode } = req.body;
     savedData[shortcode] = url;
 
+    const shortUrl = `http://localhost:3000/${shortcode}`
+    res.json({ shortUrl });
+
     writeFile(dataFile, JSON.stringify(savedData, null, 2), (err) => {
       if (err) throw err;
       console.log("Link saved: ", shortcode, "->", url);
-      res.send("Short link saved successfully");
     });
   });
 });

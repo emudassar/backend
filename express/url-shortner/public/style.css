@@ -19,7 +19,7 @@ body {
   max-width: 500px;
 }
 
-.form {
+#shorten-form {
   background-color: rgba(255, 255, 255, 0.1);
   padding: 30px;
   border-radius: 10px;
