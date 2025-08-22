@@ -36,6 +36,11 @@
 
         const data = await res.json();
 
+        if (data.error) {
+          alert(data.error);
+          return;
+        }
+
         const li = document.createElement("li");
         li.innerHTML = `<a href="${data.shortUrl}" target="_blank">${data.shortUrl}</a>`;
         list.appendChild(li);
