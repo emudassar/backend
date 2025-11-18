@@ -1,7 +1,8 @@
-const http = require("http");
-const fs = require("fs");
 
-const requestListners = (req, res) => {
+const fs = require("fs");
+const { URLSearchParams } = require("url");
+
+const requestHandler = (req, res) => {
   console.log(req.url);
 
   if (req.url === "/" && req.method === "GET") {
@@ -40,7 +41,18 @@ const requestListners = (req, res) => {
       const formData = Buffer.concat(body).toString();
       console.log("Form Data:", formData);
 
-      fs.writeFileSync("user.txt", formData);
+      const params = new URLSearchParams(formData)
+
+      // const bodyObject = {}
+      // for (const [key, val] of params.entries()){
+      //   bodyObject[key] = val
+      // }
+
+      const bodyObject = Object.fromEntries(params)
+      console.log(bodyObject);
+      
+
+      fs.writeFileSync("user.txt", JSON.stringify(bodyObject));
 
       res.statusCode = 302;
       res.setHeader("Location", "/");
@@ -55,9 +67,4 @@ const requestListners = (req, res) => {
   return res.end();
 };
 
-const server = http.createServer(requestListners);
-
-const PORT = 3000;
-server.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
-});
+module.exports = requestHandler
